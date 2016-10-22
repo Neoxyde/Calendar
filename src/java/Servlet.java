@@ -50,6 +50,36 @@ public class Servlet extends HttpServlet
 	    out.println("</html>");
 	}
     }
+    
+    private void printFirstPage(PrintWriter out)
+    {
+	out.println("<!DOCTYPE html>\n"
+		+ "<html lang=\"es\">\n"
+		+ "<head>\n"
+		+ "    <meta charset=\"UTF-8\">\n"
+		+ "    <title>Calendario</title>\n"
+		+ "    <!--<link rel=\"stylesheet\" href=\"headerStyle.css\">-->\n"
+		+ "</head>\n"
+		+ "<body>\n"
+		+ "    <div class=\"header\"><h2>Mi Calendario</h2></div>\n"
+		+ "    <div class=\"body\">\n"
+		+ "        <div id=\"msgwelcome\">Introduce tu nombre</div>\n"
+		+ "        <div id=\"nameform\">\n"
+		+ "            <form action=\"post\">\n"
+		+ "                <input type=\"text\" placeholder=\"Nombre\">\n"
+		+ "                <input type=\"reset\" value=\"Restablecer\">\n"
+		+ "                <input type=\"submit\" value=\"Enviar\">\n"
+		+ "            </form>\n"
+		+ "        </div>\n"
+		+ "    </div>\n"
+		+ "</body>\n"
+		+ "</html>");	
+    }
+    
+    
+    
+    
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
