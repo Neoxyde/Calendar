@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendario</title>
+    <!--<link rel="stylesheet" href="headerStyle.css">-->
+</head>
+<body>
+    <div class="header"><h2>Mi Calendario</h2></div>
+    <div class="body">
+        <div id="msgwelcome">Bienvenido, </div>
+        <div class="dates" style="margin-bottom:2em;">
+            <h4>Citas</h4>
+            <p>Día Mes Año Descripción</p>
+        </div>
+        <div class="newdate" style="margin-top:2em;">
+            <h4>Crear nueva cita</h4>
+            <form action="" method="POST">
+                Fecha
+                <br>
+                <input type="date" name="date" id="date">
+                <br><br>
+                Descripción
+                <br>
+                <input type="text" name="description">
+                <input type="submit" value="Enviar">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

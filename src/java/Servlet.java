@@ -8,9 +8,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -18,10 +20,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns =
 {
-    "/Servlet"
+    ""
 })
 public class Servlet extends HttpServlet
 {
+    private HttpSession session;
+    private Cookie dateCookie;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,18 +40,34 @@ public class Servlet extends HttpServlet
 	    throws ServletException, IOException
     {
 	response.setContentType("text/html;charset=UTF-8");
+	
+	session = request.getSession(false);
+	
+	
+	
+	if (session == null)
+	{
+	    session = request.getSession();
+	    try (PrintWriter out = response.getWriter())
+	    {
+		printFirstPage(out);
+	    }	    
+	    String a = request.getParameter("name");
+	    session.setAttribute("name", a);
+	}
+	else
+	{
+	    try (PrintWriter out = response.getWriter())
+	    {
+		printMainPage(out, (String) session.getAttribute("name"));
+	    }
+	}
+	
+	
 	try (PrintWriter out = response.getWriter())
 	{
 	    /* TODO output your page here. You may use following sample code. */
-	    out.println("<!DOCTYPE html>");
-	    out.println("<html>");
-	    out.println("<head>");
-	    out.println("<title>Servlet Servlet</title>");	    
-	    out.println("</head>");
-	    out.println("<body>");
-	    out.println("<h1>Servlet Servlet at " + request.getContextPath() + "</h1>");
-	    out.println("</body>");
-	    out.println("</html>");
+	    printFirstPage(out);
 	}
     }
     
@@ -65,9 +85,44 @@ public class Servlet extends HttpServlet
 		+ "    <div class=\"body\">\n"
 		+ "        <div id=\"msgwelcome\">Introduce tu nombre</div>\n"
 		+ "        <div id=\"nameform\">\n"
-		+ "            <form action=\"post\">\n"
-		+ "                <input type=\"text\" placeholder=\"Nombre\">\n"
+		+ "            <form action=\"\" method=\"post\">\n"
+		+ "                <input type=\"text\" placeholder=\"Nombre\" name=\"name\">\n"
 		+ "                <input type=\"reset\" value=\"Restablecer\">\n"
+		+ "                <input type=\"submit\" value=\"Enviar\">\n"
+		+ "            </form>\n"
+		+ "        </div>\n"
+		+ "    </div>\n"
+		+ "</body>\n"
+		+ "</html>");	
+    }
+    
+    private void printMainPage(PrintWriter out, String username)
+    {
+	out.println("<!DOCTYPE html>\n"
+		+ "<html lang=\"en\">\n"
+		+ "<head>\n"
+		+ "    <meta charset=\"UTF-8\">\n"
+		+ "    <title>Calendario</title>\n"
+		+ "    <!--<link rel=\"stylesheet\" href=\"headerStyle.css\">-->\n"
+		+ "</head>\n"
+		+ "<body>\n"
+		+ "    <div class=\"header\"><h2>Mi Calendario</h2></div>\n"
+		+ "    <div class=\"body\">\n"
+		+ "        <div id=\"msgwelcome\">Bienvenido, </div>\n"
+		+ "        <div class=\"dates\" style=\"margin-bottom:2em;\">\n"
+		+ "            <h4>Citas</h4>\n"
+		+ "            <p>Día Mes Año Descripción</p>\n"
+		+ "        </div>\n"
+		+ "        <div class=\"newdate\" style=\"margin-top:2em;\">\n"
+		+ "            <h4>Crear nueva cita</h4>\n"
+		+ "            <form action=\"\" method=\"POST\">\n"
+		+ "                Fecha\n"
+		+ "                <br>\n"
+		+ "                <input type=\"date\" name=\"date\" id=\"date\">\n"
+		+ "                <br><br>\n"
+		+ "                Descripción\n"
+		+ "                <br>\n"
+		+ "                <input type=\"text\" name=\"description\">\n"
 		+ "                <input type=\"submit\" value=\"Enviar\">\n"
 		+ "            </form>\n"
 		+ "        </div>\n"
